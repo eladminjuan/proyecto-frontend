@@ -1,0 +1,135 @@
+<div class="details">
+    <div class="recentOrders">
+        <div class="cardHeader">
+            <h2>Usuarios</h2>
+            <a (click)="openCreateModal()" class="btn">Crear Usuario</a>
+        </div>
+
+        <table *ngIf="filteredUsuarios.length > 0">
+            <thead>
+                <tr>
+                    <td>Nombre</td>
+                    <td>Correo</td>
+                    <td>Roles</td>
+                    <td>Foto</td>
+                    <td>Telefono</td>
+                    <td>Pais</td>
+                    <td>Estado</td>
+                    <td>Fecha</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let usuario of filteredUsuarios | paginate: { itemsPerPage: 5, currentPage: page }">
+                    <td>{{ usuario.nombre }}</td>
+                    <td>{{ usuario.correo }}</td>
+                    <td>
+                        <ng-container *ngFor="let role of usuario.roles">
+                            <span [ngClass]="{'auxiliar': role === 'Auxiliar', 'administrador': role === 'Administrador'}">{{ role }}</span><br>
+                        </ng-container>
+                    </td>
+                    <td><img *ngIf="usuario.foto" [src]="'data:image/jpeg;base64,' + usuario.foto"
+                            alt="Foto del usuario"></td>
+                    <td>{{ usuario.telefono }}</td>
+                    <td>{{ usuario.pais }}</td>
+                    <td><span
+                            [ngClass]="{'activo': usuario.estado === 'Activo', 'inactivo': usuario.estado === 'Inactivo', 'suspendido': usuario.estado === 'Suspendido'}">{{
+                            usuario.estado }}</span></td>
+                    <td>{{ usuario.fecha }}</td>
+                    <td>
+                        <a (click)="editUsuario(usuario)" class="btnedit">Editar</a>
+                        <a *ngIf="usuario._id" (click)="deleteUsuario(usuario._id!)" class="btndelete">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination-controls *ngIf="filteredUsuarios.length !== 0" (pageChange)="page = $event" previousLabel="Anterior"
+            nextLabel="Siguiente"></pagination-controls>
+        <div class="loader-container" *ngIf="filteredUsuarios.length == 0">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+
+<section class="modal" [ngClass]="{'modal--show': isModalOpen}">
+    <div class="modal__container">
+        <div class="titeleclient">{{ isEditMode ? 'Editar Usuario' : 'Crear Usuario' }}</div>
+        <form (ngSubmit)="submitForm()">
+            <div class="user-details">
+                <!-- Campos del formulario -->
+                <div class="input-box">
+                    <span class="details">Nombre Completo</span>
+                    <input type="text" [(ngModel)]="usuario.nombre" name="nombre" id="nombre"
+                        placeholder="Digita el Nombre" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Correo</span>
+                    <input type="email" [(ngModel)]="usuario.correo" name="correo" id="correo"
+                        placeholder="Digita el Correo" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Contraseña</span>
+                    <input type="text" [(ngModel)]="usuario.password" name="password" id="password"
+                        placeholder="Digita la contraseña" required>
+                </div>
+                
+                <div class="input-box">
+                    <span class="details">Foto</span>
+                    <input class="file" type="file" (change)="onFileChange($event)" name="foto" id="foto"
+                        accept=".png, .jpeg, .jpg">
+                    <label class="fil" for="foto">Subir Imagen Aquí</label>
+                </div>
+                <div class="input-box">
+                    <span class="details">Teléfono</span>
+                    <input type="text" [(ngModel)]="usuario.telefono" name="telefono" id="telefono"
+                        placeholder="Digita el Telefono" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Tipo Documento</span>
+                    <select class="input-quantity" [(ngModel)]="usuario.tipdocu"  name="tipdocu" id="tipdocu">
+                        <option disabled selected value="">Selecciona el Tipo de Documento</option>
+                        <option value="RUT">RUT</option>
+                        <option value="Cedula Extranjera">Cédula Extranjera</option>
+                        <option value="Pasaporte">Pasaporte</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <span class="details"># Documento</span>
+                    <input type="text" [(ngModel)]="usuario.numdocu" name="numdocu" id="numdocu" placeholder="Tu número de documento">
+                </div>
+                <div class="input-box">
+                    <span class="details">Pais</span>
+                    <input type="text" [(ngModel)]="usuario.pais" name="pais" id="pais" placeholder="Digita el Pais"
+                        required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Estado</span>
+                    <select class="input-quantity" [(ngModel)]="usuario.estado" name="estado" id="estado">
+                        <option disabled selected value="Activo">Selecciona el Estado</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                        <option value="Suspendido">Suspendido</option>
+                    </select>
+                </div>
+                <div class="input-box che">
+                    <span class="details">Rol Auxiliar</span>
+                    <label>
+                        <input type="checkbox" [checked]="hasRole('Auxiliar')" (change)="onRoleChange($event, 'Auxiliar')" name="auxiliar">
+                        <span>Auxiliar</span>
+                    </label>
+                </div>
+                <div class="input-box che">
+                    <span class="details">Rol Administrativo</span>
+                    <label>
+                        <input type="checkbox" [checked]="hasRole('Administrador')" (change)="onRoleChange($event, 'Administrador')" name="administrador">
+                        <span>Administrador</span>
+                    </label>
+                </div>
+            </div>
+            <div class="buttonhabi">
+                <input class="modal__close" type="button" value="Cancelar" (click)="closeModal()">
+                <input class="modal__close2" type="submit" value="{{ isEditMode ? 'Actualizar' : 'Guardar' }}">
+            </div>
+        </form>
+    </div>
+</section>

@@ -1,0 +1,105 @@
+<div *ngIf="habitaciones.length > 0">
+    <div class="container-title">Habitación {{ currentHabitacion?.estilo }}</div>
+    <main>
+        <div class="container-img">
+            <img *ngIf="currentHabitacion?.foto" [src]="'data:image/jpeg;base64,' + currentHabitacion?.foto"
+                alt="Imagen de {{ currentHabitacion?.estilo }}">
+        </div>
+        <div class="container-info-habi">
+            <div class="container-price">
+                <span>{{ precioCalculado | currency:'USD' }}</span>
+                <i class="fa-solid fa-angle-right" (click)="nextHabitacion()"></i>
+            </div>
+
+            <div class="container-details-habi">
+                <div class="form-group">
+                    <label for="fechaentrada">Fecha Ingreso</label>
+                    <input type="date" id="fechaentrada" [(ngModel)]="fechaEntrada" (change)="validateDates()">
+                </div>
+                <div class="form-group">
+                    <label for="fechasalida">Fecha Salida</label>
+                    <input type="date" id="fechasalida" [(ngModel)]="fechaSalida" (change)="validateDates()">
+                </div>
+                <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+                <button class="btn-clean" (click)="limpiarCampos()">Limpiar</button>
+            </div>
+
+            <div class="container-add-cart">
+                <div class="container-quantity">
+                    <button class="input-quantity">Ver</button>
+                    
+                </div>
+                <button class="btn-add-to-cart" [disabled]="isButtonDisabled" (click)="addToCart()">
+                    <i class="fa-solid fa-plus"></i>
+                    Añadir al Carrito
+                </button>
+            </div>
+
+            <div class="container-description">
+                <div class="title-description" (click)="toggleContent('description')">
+                    <h4>Descripción</h4>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="text-description">
+                    <p>{{ currentHabitacion?.descripcion }}</p>
+                </div>
+            </div>
+
+            <div class="container-additional-information">
+                <div class="title-additional-information" (click)="toggleContent('additional-information')">
+                    <h4>Información Adicional</h4>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="text-additional-information hidden">
+                    <p>----------</p>
+                </div>
+            </div>
+
+            <div class="container-reviews">
+                <div class="title-reviews" (click)="toggleContent('reviews')">
+                    <h4>Reseñas</h4>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="text-reviews hidden">
+                    <p>----------</p>
+                </div>
+            </div>
+
+            <div class="container-services">
+                <span>Servicios</span>
+                <div class="container-buttons-services">
+                    <i class="fa-solid fa-mug-saucer"></i>
+                    <i class="fa-solid fa-tv"></i>
+                    <i class="fa-solid fa-wifi"></i>
+                    <i class="fa-solid fa-square-parking"></i>
+                    <i class="fa-regular fa-snowflake"></i>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<div class="loader-container" *ngIf="habitaciones.length == 0">
+    <div class="loader"></div>
+</div>
+<section class="container-related-habi">
+    <h2 *ngIf="habitaciones.length !== 0">Más Habitaciones</h2>
+    <div class="card-list-habi">
+        <div class="card" *ngFor="let habitacion of habitaciones" (click)="selectHabitacion(habitacion)">
+            <div class="card-img">
+                <img *ngIf="habitacion.foto" [src]="'data:image/jpeg;base64,' + habitacion.foto"
+                    alt="Foto de la habitación">
+            </div>
+            <div class="info-card">
+                <div class="text-habi">
+                    <h3>{{ habitacion.estilo }}</h3>
+                    <i class="fa-solid fa-mug-saucer"></i>
+                    <i class="fa-solid fa-tv"></i>
+                    <i class="fa-solid fa-wifi"></i>
+                    <i class="fa-solid fa-square-parking"></i>
+                    <i class="fa-regular fa-snowflake"></i>
+                </div>
+                <div class="price">{{ habitacion.precio | currency:'USD' }}</div>
+            </div>
+        </div>
+    </div>
+</section>

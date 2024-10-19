@@ -1,0 +1,185 @@
+/* General Styles */
+.wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #fafafa;
+    font-family: 'roboto', sans-serif;
+    padding-bottom: 35px;
+}
+
+.bag {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.418), rgba(0, 0, 0, 0.815)), url(/assets/img/back.jpg);
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    padding: 0 15px;
+    margin-bottom: 15px;
+    padding-top: 35px;
+}
+
+.wrapper h1 {
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    font-size: 3em;
+    background: #fafafa;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    padding: 5px 15px;
+}
+
+.content-box {
+    width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top: 35px;
+}
+
+.card {
+    min-height: 220px;
+    width: 300px;
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, .2);
+    background: #fff;
+    margin: 10px 5px;
+    transition: 0.3s;
+}
+
+.card i {
+    margin-bottom: 20px;
+    color: rgb(223, 220, 60);
+    font-size: 30px;
+}
+
+.card h2 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.card p {
+    color: #6c757d;
+    text-align: center;
+}
+
+.card:hover {
+    scale: 1.03;
+    background: linear-gradient(90deg,
+    rgba(2, 2, 36, 0.7) 0%,
+    rgba(248, 244, 3, 0.7) 35%,
+    rgba(248, 183, 4, 0.7) 100%),
+    url(/assets/img/break.png);
+    background-size: cover;
+    background-position: center;
+    opacity: 0.9;
+    color: #fff;
+}
+
+.card:nth-child(2):hover {
+    background: linear-gradient(90deg,
+    rgba(2, 2, 36, 0.7) 0%,
+    rgba(248, 244, 3, 0.7) 35%,
+    rgba(248, 183, 4, 0.7) 100%),
+    url(/assets/img/cock.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.card:nth-child(3):hover {
+    background: linear-gradient(90deg,
+    rgba(2, 2, 36, 0.7) 0%,
+    rgba(248, 244, 3, 0.7) 35%,
+    rgba(248, 183, 4, 0.7) 100%),
+    url(/assets/img/aire.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.card:nth-child(4):hover {
+    background: linear-gradient(90deg,
+    rgba(2, 2, 36, 0.7) 0%,
+    rgba(248, 244, 3, 0.7) 35%,
+    rgba(248, 183, 4, 0.7) 100%),
+    url(/assets/img/soap.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.card:nth-child(5):hover {
+    background: linear-gradient(90deg,
+    rgba(2, 2, 36, 0.7) 0%,
+    rgba(248, 244, 3, 0.7) 35%,
+    rgba(248, 183, 4, 0.7) 100%),
+    url(/assets/img/comedor.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.card:nth-child(6):hover {
+    background: linear-gradient(90deg,
+    rgba(2, 2, 36, 0.7) 0%,
+    rgba(248, 244, 3, 0.7) 35%,
+    rgba(248, 183, 4, 0.7) 100%),
+    url(/assets/img/parking.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.card:hover p {
+    color: #fff;
+}
+
+.card:hover i {
+    color: #fff;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .content-box {
+        width: 80%;
+    }
+}
+
+@media (max-width: 768px) {
+    .wrapper h1 {
+        font-size: 2.5em;
+    }
+
+    .content-box {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .card {
+        min-width: 270px;
+        margin: 10px auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .wrapper h1 {
+        font-size: 2em;
+    }
+
+    .content-box {
+        padding-top: 20px;
+    }
+
+    .card {
+        width: 90%;
+        margin: 10px auto;
+    }
+}

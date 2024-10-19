@@ -1,0 +1,94 @@
+<div class="body">
+    <div class="container-form register">
+        <div class="information">
+            <div class="info-childs">
+                <h2>Bienvenido</h2>
+                <p>Para reservar una habitación en <span>Edelweiss Hostal Boutique</span>, inicia sesión con tus datos.
+                </p>
+                <input type="button" value="Iniciar Sesión" id="signin">
+            </div>
+        </div>
+        <div class="form-information">
+            <div class="form-information-childs">
+                <h2>Crear Cuenta</h2>
+                <div class="icons">
+                    <i class="fab fa-google"></i>
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-microsoft"></i>
+                </div>
+                <p>o usar email para registrarse</p>
+                <form class="form" [formGroup]="registerForm" (ngSubmit)="createUsuario()">
+                    <label>
+                        <i class="fa-regular fa-user"></i>
+                        <input type="text" id="nombreR" formControlName="nombreR" placeholder="Nombre Completo"
+                            required>
+                    </label>
+                    <div *ngIf="registerForm?.get('nombreR')?.invalid && registerForm?.get('nombreR')?.touched"
+                        class="error-message">
+                        Nombre es requerido.
+                    </div>
+                    <label>
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" id="correoR" formControlName="correoR" placeholder="Correo Electrónico"
+                            required>
+                    </label>
+                    <div *ngIf="registerForm?.get('correoR')?.invalid && registerForm?.get('correoR')?.touched"
+                        class="error-message">
+                        Correo electrónico inválido.
+                    </div>
+                    <label>
+                        <i class="fa-solid fa-unlock"></i>
+                        <input type="text" id="passwordR" formControlName="passwordR" placeholder="Contraseña" required>
+                    </label>
+                    <div *ngIf="registerForm?.get('passwordR')?.invalid && registerForm?.get('passwordR')?.touched"
+                        class="error-message">
+                        Contraseña es requerida.
+                    </div>
+                    <input type="submit" value="Registrarse" [disabled]="registerForm.invalid">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-form login hide">
+        <div class="information">
+            <div class="info-childs">
+                <h2>¡¡Bienvenido nuevamente!!</h2>
+                <p>Si aun no tienes cuenta por favor regístrate aquí</p>
+                <input type="button" value="Registrarse" id="signup">
+            </div>
+        </div>
+        <div class="form-information">
+            <div class="form-information-childs">
+                <h2>Iniciar Sesión</h2>
+                <div class="icons">
+                    <i class="fa-brands fa-google"></i>
+                    <i class="fa-brands fa-facebook"></i>
+                    <i class="fa-brands fa-microsoft"></i>
+                </div>
+                <p>o Inicia Sesión con una cuenta</p>
+                <form class="form" [formGroup]="loginForm" (ngSubmit)="login()">
+                    <label>
+                        <i class="fa-regular fa-envelope"></i>
+                        <input type="email" id="correo" formControlName="correo" placeholder="Correo Electrónico"
+                            required>
+                    </label>
+                    <div *ngIf="loginForm?.get('correo')?.invalid && loginForm?.get('correo')?.touched"
+                        class="error-message">
+                        Correo electrónico inválido.
+                    </div>
+                    <label>
+                        <i class="fa-solid fa-unlock"></i>
+                        <input type="password" id="password" formControlName="password" placeholder="Contraseña"
+                            required>
+                    </label>
+                    <div *ngIf="loginForm?.get('password')?.invalid && loginForm?.get('password')?.touched"
+                        class="error-message">
+                        Contraseña es requerida.
+                    </div>
+                    <input type="submit" value="Iniciar Sesión" [disabled]="loginForm.invalid">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

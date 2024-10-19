@@ -1,0 +1,123 @@
+<div class="details">
+    <div class="recentOrders">
+        <div class="cardHeader">
+            <h2>Habitaciones</h2>
+            <a (click)="openCreateModal()" class="btn">Crear Habitación</a>
+        </div>
+
+        <table *ngIf="filteredHabitaciones.length > 0">
+            <thead>
+                <tr>
+                    <td>Estilo</td>
+                    <td>Numero</td>
+                    <td>Capacidad</td>
+                    <td>Foto</td>
+                    <td>Video</td>
+                    <td>Descripción</td>
+                    <td>Precio</td>
+                    <td>Estado</td>
+                    <td>Fecha</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let habitacion of filteredHabitaciones | paginate: { itemsPerPage: 3, currentPage: page }">
+                    <td><span [ngClass]="{'individual': habitacion.estilo === 'Individual', 'doble': habitacion.estilo === 'Doble', 'familiar': habitacion.estilo === 'Familiar', 'matrimonial': habitacion.estilo === 'Matrimonial'}">{{ habitacion.estilo }}</span></td>
+                    <td>{{ habitacion.numero }}</td>
+                    <td>{{ habitacion.capacidad }}</td>
+                    <td><img *ngIf="habitacion.foto" [src]="'data:image/jpeg;base64,' + habitacion.foto"
+                            alt="Foto de la habitación"></td>
+                    <td>{{ habitacion.video }}</td>
+                    <td>{{ habitacion.descripcion }}</td>
+                    <td>{{ habitacion.precio | currency: 'USD' }}</td>
+                    <td><span [ngClass]="{'disponible': habitacion.estado === 'Disponible', 'ocupada': habitacion.estado === 'Ocupada', 'mantenimiento': habitacion.estado === 'Mantenimiento'}">{{ habitacion.estado }}</span></td>
+                    <td>{{ habitacion.fecha }}</td>
+                    <td>
+                        <a (click)="editHabitacion(habitacion)" class="btnedit">Editar</a>
+                        <a *ngIf="habitacion._id" (click)="deleteHabitacion(habitacion._id!)"
+                            class="btndelete">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination-controls *ngIf="filteredHabitaciones.length !== 0" (pageChange)="page = $event" previousLabel="Anterior" nextLabel="Siguiente"></pagination-controls>
+        <div class="loader-container" *ngIf="filteredHabitaciones.length == 0">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+
+<section class="modal" [ngClass]="{'modal--show': isModalOpen}">
+    <div class="modal__container">
+        <div class="titeleclient">{{ isEditMode ? 'Editar Habitación' : 'Crear Habitación' }}</div>
+        <form (ngSubmit)="submitForm()">
+            <div class="user-details">
+                <!-- Campos del formulario -->
+                <div class="input-box">
+                    <span class="details">Estilo de Habitación</span>
+                    <select class="input-quantity" [(ngModel)]="habitacion.estilo" name="estilo" id="estilo">
+                        <option disabled selected value="">Selecciona el Estilo</option>
+                        <option value="Individual">Individual</option>
+                        <option value="Doble">Doble</option>
+                        <option value="Familiar">Familiar</option>
+                        <option value="Matrimonial">Matrimonial</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <span class="details number">Número Habitación</span>
+                    <input type="number" [(ngModel)]="habitacion.numero" name="numero" id="numero"
+                        placeholder="Asignar número de Habitación" min="1" max="20" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Capacidad</span>
+                    <select class="input-quantity" [(ngModel)]="habitacion.capacidad" name="capacidad" id="capacidad">
+                        <option selected disabled value="1">Selecciona la Cantidad</option>
+                        <option value="1">01</option>
+                        <option value="2">02</option>
+                        <option value="3">03</option>
+                        <option value="4">04</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <span class="details">Slug</span>
+                    <input type="text" [(ngModel)]="habitacion.slug" name="slug" id="slug"
+                        placeholder="Escribe el Slug">
+                </div>
+                <div class="input-box">
+                    <span class="details">Foto</span>
+                    <input class="file" type="file" (change)="onFileChange($event)" name="foto" id="foto"
+                        accept=".png, .jpeg, .jpg">
+                    <label class="fil" for="foto">Subir Imagen Aquí</label>
+                </div>
+                <div class="input-box">
+                    <span class="details">Video</span>
+                    <input type="url" [(ngModel)]="habitacion.video" name="video" id="video"
+                        placeholder="Inserta URL del video">
+                </div>
+                <div class="input-box">
+                    <span class="details">Descripción</span>
+                    <input type="text" [(ngModel)]="habitacion.descripcion" name="descripcion" id="descripcion"
+                        placeholder="Escribe una descripción" required>
+                    </div>
+                <div class="input-box">
+                    <span class="details">Precio</span>
+                    <input type="number" [(ngModel)]="habitacion.precio" name="precio" id="precio"
+                        placeholder="Asigna un Precio" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Estado</span>
+                    <select class="input-quantity" [(ngModel)]="habitacion.estado" name="estado" id="estado">
+                        <option disabled selected value="Disponible">Selecciona el Estado</option>
+                        <option value="Disponible">Disponible</option>
+                        <option value="Ocupada">Ocupada</option>
+                        <option value="Mantenimiento">Mantenimiento</option>
+                    </select>
+                </div>
+            </div>
+            <div class="buttonhabi">
+                <input class="modal__close" type="button" value="Cancelar" (click)="closeModal()">
+                <input class="modal__close2" type="submit" value="{{ isEditMode ? 'Actualizar' : 'Guardar' }}">
+            </div>
+        </form>
+    </div>
+</section>

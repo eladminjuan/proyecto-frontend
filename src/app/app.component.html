@@ -1,0 +1,111 @@
+<header>
+  <nav>
+    <a href="">
+      <img src="assets/img/logo.png" alt="">
+    </a>
+    <button class="menu-toggle" aria-label="Toggle menu" (click)="toggleMenu()">
+      <i class="fa fa-bars"></i>
+    </button>
+    <ul [ngClass]="{'active': menuActive}" class="menu">
+      <li><a routerLink="home" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">INICIO</a>
+      </li>
+      <li><a routerLink="habitaciones" routerLinkActive="active-link">HABITACIONES</a></li>
+      <li><a routerLink="servicios" routerLinkActive="active-link">SERVICIOS</a></li>
+      <li><a routerLink="reservas" routerLinkActive="active-link">MIS RESERVAS</a></li>
+      <li><a routerLink="blog" routerLinkActive="active-link">BLOG</a></li>
+      <li><a routerLink="contacto" routerLinkActive="active-link">CONTACTO</a></li>
+      <li *ngIf="isLoggedIn">
+        <button (click)="openCartModal()" class="cart-button">
+          <i class="fa-solid fa-bag-shopping cart"></i>
+          <span class="cart-badge">{{ cartItemCount }}</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+
+<router-outlet></router-outlet>
+
+<div id="cartModal" class="modal" [ngClass]="{'show': isCartModalOpen}">
+  <div class="carrito">
+    <div class="header-carrito">
+      <span class="close" (click)="closeCartModal()">&times;</span>
+      <h2>Tu Carrito</h2>
+    </div>
+    <div class="carrito-items">
+      <div class="carrito-item" *ngFor="let reserva of reservas">
+        <img [src]="'data:image/jpeg;base64,' + reserva.idhabitacion.foto" alt="" width="80px">
+        <div class="carrito-item-detalles">
+          <span class="carrito-item-titulo">Habitacion {{ reserva.idhabitacion.estilo }}</span>
+          <div class="selector-dias">
+            <input type="text" class="carrito-item-dias"
+              [value]="calcularNoches(reserva.fechaIngreso, reserva.fechaSalida) + ' Noches'" disabled>
+          </div>
+          <span class="carrito-item-precio">{{ reserva.valorTotal | currency:'USD' }}</span>
+        </div>
+        <span class="btn-eliminar" (click)="eliminarReserva(reserva._id)">
+          <i class="fa-solid fa-trash"></i>
+        </span>
+      </div>
+      <h3 *ngIf="reservas.length == 0">No hay artículos disponibles para mostrar</h3>
+    </div>
+    <div class="carrito-total">
+      <div class="fila" *ngIf="reservas.length !== 0">
+        <strong>Total a Pagar</strong>
+        <span class="carrito-precio-total">{{ totalPrecio | currency:'USD' }} CLP</span>
+      </div>
+      <div class="" id="paypal-button-container"></div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer-distributed">
+
+  <div class="footer-left">
+    <a href="">
+      <img class="foot" src="assets/img/logo.png" alt="">
+    </a>
+
+    <p class="footer-links">
+      <a href="home">Inicio</a>
+      |
+      <a href="https://edelweisstaff.netlify.app" target="_blank">Colaborador</a>
+      |
+      <a href="contacto">Contacto</a>
+      |
+      <a href="blog">Blog</a>
+    </p>
+
+    <p class="footer-company-name">&copy; 2024 <strong>Juancho Tech</strong></p>
+  </div>
+
+  <div class="footer-center">
+    <div>
+      <i class="fa fa-map-marker"></i>
+      <p><span>José Miguel Claro 791</span>
+        Santiago, Chile 7500000</p>
+    </div>
+
+    <div>
+      <i class="fa fa-whatsapp"></i>
+      <p><a href="https://wa.me/56936221750">+56 9 36221750</a></p>
+    </div>
+    <div>
+      <i class="fa fa-envelope"></i>
+      <p><a href="mailto:info@bbedelweiss.com">info&#64;bbedelweiss.com</a></p>
+    </div>
+  </div>
+  <div class="footer-right">
+    <p class="footer-company-about">
+      <span>Acerca de la empresa</span>
+      <strong>Edelweiss Hostal Boutique</strong> ofrece una estadía acogedora y cómoda. Disfruta de habitaciones
+      luminosas, una terraza relajante y estacionamiento incluido. <br>
+      Además, el personal es muy atento y el lugar cumple con los estándares de limpieza. Ideal para una estadía económica en Santiago.
+    </p>
+    <div class="footer-icons">
+      <a href="https://www.facebook.com/bbedelweiss" target="_blank"><i class="fa fa-facebook"></i></a>
+      <a href="https://www.instagram.com/hostalboutiqueedelweiss" target="_blank"><i class="fa fa-instagram"></i></a>
+    </div>
+  </div>
+</footer>

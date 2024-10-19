@@ -1,0 +1,172 @@
+<div class="container">
+    <div class="profile">
+        <div class="profile-header">
+            <img [src]="'data:image/jpeg;base64,' + originalUserData.foto  || '/assets/img/user.png'" alt=""
+                class="profile-img">
+            <div class="profile-text-container">
+                <h1 class="profile-title">{{ originalUserData.nombre }}</h1>
+                <p class="profile-email">{{ originalUserData.correo }}</p>
+            </div>
+        </div>
+        <div class="menus">
+            <a class="menus-link" [ngClass]="{'active': activeForm === 'account'}" (click)="setActiveForm('account')">
+                <i class="fa-solid fa-user"></i>Mi Cuenta
+            </a>
+            <a class="menus-link" [ngClass]="{'active': activeForm === 'reserva'}" (click)="setActiveForm('reserva')">
+                <i class="fa-solid fa-bell-concierge"></i>Mis Reservas
+            </a>
+            <a class="menus-link" [ngClass]="{'active': activeForm === 'password'}" (click)="setActiveForm('password')">
+                <i class="fa-solid fa-lock"></i>Contraseña
+            </a>
+            <a class="menus-link" (click)="logout()">
+                <i class="fa-solid fa-right-from-bracket"></i>Cerrar Sesión
+            </a>
+        </div>
+    </div>
+
+    <form *ngIf="activeForm === 'account'" class="account">
+        <div class="account-header">
+            <h1 class="account-title">MI CUENTA</h1>
+            <div class="btn-container">
+                <button class="btn-cancel" [disabled]="!isModified" (click)="cancelChanges()">Cancelar</button>
+                <button class="btn-save" [disabled]="!isModified" (click)="saveChanges()">Guardar</button>
+            </div>
+        </div>
+
+        <div class="account-edit">
+            <div class="input-container">
+                <label>NOMBRE COMPLETO</label>
+                <input type="text" [(ngModel)]="user.nombre" name="nombre" (input)="onInputChange()"
+                    placeholder="Tu nombre completo">
+            </div>
+            <div class="input-container">
+                <label>CORREO</label>
+                <input type="email" [(ngModel)]="user.correo" name="correo" (input)="onInputChange()"
+                    placeholder="Tu correo">
+            </div>
+        </div>
+        <div class="account-edit">
+            <div class="input-container">
+                <label>TELEFONO</label>
+                <input type="text" [(ngModel)]="user.telefono" name="telefono" (input)="onInputChange()"
+                    placeholder="Tu número de telefono">
+            </div>
+            <div class="input-container">
+                <label>PAÍS</label>
+                <input type="text" [(ngModel)]="user.pais" name="pais" (input)="onInputChange()" placeholder="Tu país">
+            </div>
+        </div>
+        <div class="account-edit">
+            <div class="input-container">
+                <label>TIPO DOCUMENTO</label>
+                <select class="input-quantity" [(ngModel)]="user.tipdocu"  name="tipdocu" (ngModelChange)="onInputChange()">
+                    <option disabled selected value="">Selecciona el Tipo de Documento</option>
+                    <option value="RUT">RUT</option>
+                    <option value="Cedula Extranjera">Cédula Extranjera</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                </select>
+            </div>
+            <div class="input-container">
+                <label>NÚMERO DOCUMENTO</label>
+                <input type="text" [(ngModel)]="user.numdocu" name="numdocu" (input)="onInputChange()" placeholder="Tu número de documento">
+            </div>
+        </div>
+    </form>
+
+    <form *ngIf="activeForm === 'password'" class="password">
+        <div class="account-header">
+            <h1 class="account-title">CAMBIAR CONTRASEÑA</h1>
+            <div class="btn-container">
+                <button class="btn-cancel" (click)="cancelChanges()" [disabled]="!isModified">Cancelar</button>
+                <button class="btn-save" (click)="savePasswordChanges()"
+                    [disabled]="!isPasswordValid()">Guardar</button>
+            </div>
+        </div>
+
+        <div class="account-edit">
+            <div class="input-container">
+                <label>CONTRASEÑA ANTIGUA</label>
+                <input type="password" name="passwordAntiguo" placeholder="Tu contraseña antigua"
+                    [(ngModel)]="password.oldPassword" (ngModelChange)="onPasswordInputChange()">
+            </div>
+        </div>
+        <div class="account-edit">
+            <div class="input-container">
+                <label>NUEVA CONTRASEÑA</label>
+                <input type="password" name="passwordNuevo" placeholder="Tu nueva contraseña"
+                    [(ngModel)]="password.newPassword" (ngModelChange)="onPasswordInputChange()">
+            </div>
+            <div class="input-container">
+                <label>CONFIRMA CONTRASEÑA</label>
+                <input type="password" name="passwordConfirm" placeholder="Confirma contraseña"
+                    [(ngModel)]="password.confirmPassword" (ngModelChange)="onPasswordInputChange()">
+                <div *ngIf="password.newPassword !== password.confirmPassword && password.confirmPassword">
+                    <p class="error">Las contraseñas no coinciden</p>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form *ngIf="activeForm === 'reserva'" class="reserva">
+        <div class="account-header">
+            <h1 class="account-title">MIS RESERVAS</h1>
+            <div class="btn-container">
+                <button class="btn-cancelR" (click)="goToRooms()">Reservar</button>
+                <button class="btn-saveR" (click)="openCartModal()">Ir Al Carrito</button>
+            </div>
+        </div>
+
+        <div class="account-edit" *ngIf="cartItemCount > 0">
+            <div class="input-container-carrito">
+                <label>Tienes <span>{{ cartItemCount }}</span> habitación(es) pendiente(s) en tu carrito, visita <span>tu
+                        carrito</span> para continuar con la reserva.</label>
+            </div>
+        </div>
+        <div class="account-edit" *ngIf="cartItemCount === 0">
+            <div class="input-container-carritoA">
+                <label>No tienes habitaciones pendientes eun tu carrito.</label>
+            </div>
+        </div>
+        <label class="subti">HABITACIONES RESERVADAS</label>
+        <div class="account-edit" *ngIf="reservas.length > 0">
+            <div class="input-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Foto</td>
+                            <td>Estilo</td>
+                            <td>Llegada</td>
+                            <td>Salida</td>
+                            <td>Valor</td>
+                            <td>Transacción</td>
+                            <td>Método</td>
+                            <td>Estado</td>
+                            <td>Fecha</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reserva of reservas">
+                            <td><img [src]="'data:image/jpeg;base64,' + reserva.idhabitacion.foto" alt=""></td>
+                            <td><span
+                                    [ngClass]="{'individual': reserva.idhabitacion.estilo === 'Individual', 'doble': reserva.idhabitacion.estilo === 'Doble', 'familiar': reserva.idhabitacion.estilo === 'Familiar', 'matrimonial': reserva.idhabitacion.estilo === 'Matrimonial'}">{{
+                                    reserva.idhabitacion.estilo }}</span></td>
+                            <td>{{reserva.fechaIngreso | date:'dd/MM/yyyy'}}</td>
+                            <td>{{reserva.fechaSalida | date:'dd/MM/yyyy'}}</td>
+                            <td>{{reserva.valorTotal | currency:'USD'}}</td>
+                            <td>{{reserva.numTransaccion}}</td>
+                            <td>{{reserva.metodoPago}}</td>
+                            <td><span
+                                    [ngClass]="{'reservado': reserva.estado === 'Reservado', 'pendiente': reserva.estado === 'Pendiente', 'cancelado': reserva.estado === 'Cancelado'}">{{
+                                    reserva.estado }}</span></td>
+                            <td>{{reserva.fecha}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="account-edit" *ngIf="reservas.length === 0">
+            <div class="input-container-carritoA">
+                <label>No tienes habitaciones reservadas.</label>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,28 @@
+<div class="carrito">
+    <div class="header-carrito">
+        <h2>Tu Carrito</h2>
+    </div>
+    <div class="carrito-items">
+        <div class="carrito-item" *ngFor="let reserva of reservas">
+            <img [src]="'data:image/jpeg;base64,' + reserva.idhabitacion.foto" alt="" width="80px">
+            <div class="carrito-item-detalles">
+                <span class="carrito-item-titulo">Habitacion {{ reserva.idhabitacion.estilo }}</span>
+                <div class="selector-dias">
+                    <input type="text" class="carrito-item-dias" [value]="calcularNoches(reserva.fechaIngreso, reserva.fechaSalida) + ' Noches'" disabled>
+                </div>
+                <span class="carrito-item-precio">{{ reserva.valorTotal | currency:'USD' }}</span>
+            </div>
+            <span class="btn-eliminar" (click)="eliminarReserva(reserva._id)">
+                <i class="fa-solid fa-trash"></i>
+            </span>
+        </div>
+        <h5 class="sinconte" *ngIf="reservas.length == 0">No tienes articulos pendientes</h5>
+    </div>
+    <div class="carrito-total">
+        <div class="fila" *ngIf="reservas.length !== 0">
+            <strong>Total a Pagar</strong>
+            <span class="carrito-precio-total">{{ totalPrecio | currency:'USD' }}</span>
+        </div>
+        <div class="" id="paypal-button-container"></div>
+    </div>
+</div>

@@ -1,0 +1,103 @@
+<div class="container" >
+  <div class="navigation">
+    <ul>
+      <li>
+        <a href="">
+          <span class="icon dash">
+            <i class="fa-solid fa-gauge"></i>
+          </span>
+          <span class="title dash">Acceso Administrativo</span>
+        </a>
+      </li>
+      <li routerLink="inicio" routerLinkActive="hovered">
+        <a *ngIf="isLoggedIn()" routerLink="inicio" routerLinkActive="hovered">
+          <span class="icon">
+            <i class="fa-solid fa-house"></i>
+          </span>
+          <span class="title">Inicio</span>
+        </a>
+      </li>
+      <li routerLink="reservas" routerLinkActive="hovered">
+        <a *ngIf="isLoggedIn()" routerLink="reservas" routerLinkActive="hovered">
+          <span class="icon">
+            <i class="fa-solid fa-bell-concierge"></i>
+          </span>
+          <span class="title">Reservas</span>
+        </a>
+      </li>
+      <li routerLink="clientes" routerLinkActive="hovered">
+        <a *ngIf="isLoggedIn()" routerLink="clientes" routerLinkActive="hovered">
+          <span class="icon">
+            <i class="fa-solid fa-users"></i>
+          </span>
+          <span class="title">Clientes</span>
+        </a>
+      </li>
+      <li routerLink="habitaciones" routerLinkActive="hovered">
+        <a *ngIf="hasAdminRole()" routerLink="habitaciones" routerLinkActive="hovered">
+          <span class="icon">
+            <i class="fa-solid fa-bed"></i>
+          </span>
+          <span class="title">Habitaciones</span>
+        </a>
+      </li>
+      <li routerLink="acceso" routerLinkActive="hovered">
+        <a *ngIf="hasAdminRole()" routerLink="acceso" routerLinkActive="hovered">
+          <span class="icon">
+            <i class="fa-solid fa-unlock"></i>
+          </span>
+          <span class="title">Acceso</span>
+        </a>
+      </li>
+      <li routerLink="servicios" routerLinkActive="hovered">
+        <a *ngIf="hasAdminRole()" routerLink="servicios" routerLinkActive="hovered">
+          <span class="icon">
+            <i class="fa-solid fa-hands-holding-circle"></i>
+          </span>
+          <span class="title">Servicios</span>
+        </a>
+      </li>
+      <li routerLink="blog" routerLinkActive="hovered">
+        <a *ngIf="hasAdminRole()" routerLink="blog" routerLinkActive="hovered">
+          <span class="icon">
+            <i class="fa-solid fa-blog"></i>
+          </span>
+          <span class="title">Blog</span>
+        </a>
+      </li>
+      <li routerLink="setting" routerLinkActive="hovered">
+        <a *ngIf="hasAdminRole()" routerLink="setting" routerLinkActive="hovered">
+          <span class="icon">
+            <i class="fa-solid fa-sliders"></i>
+          </span>
+          <span class="title">Configuración</span>
+        </a>
+      </li>
+      <li>
+        <a *ngIf="isLoggedIn()" href="" (click)="logout()">
+          <span class="icon">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </span>
+          <span class="title">Cerrar Sesión</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="main">
+    <div class="topbar">
+      <div class="toggle">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+      <div class="search">
+        <label >
+          <input type="text" placeholder="Busca aquí" (input)="onSearch($event)">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </label>
+      </div>
+      <div class="user">
+        <img [src]="userPhotoUrl" alt="foto de usuario">
+      </div>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

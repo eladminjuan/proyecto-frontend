@@ -1,0 +1,106 @@
+<div class="cardBox">
+    <div class="card">
+        <div>
+            <div class="numbers">{{ reservasDelMes.length }}</div>
+            <div class="cardName">Reservas del mes</div>
+        </div>
+
+        <div class="iconBx">
+            <i class="fa-solid fa-bell-concierge"></i>
+        </div>
+    </div>
+    <div class="card">
+        <div>
+            <div class="numbers">{{ totalRecaudo | currency: 'USD' }}</div>
+            <div class="cardName">Recaudo</div>
+        </div>
+
+        <div class="iconBx">
+            <i class="fa-solid fa-money-bill"></i>
+        </div>
+    </div>
+    <div class="card">
+        <div>
+            <div class="numbers">{{ usuariosSinRolesCount }}</div>
+            <div class="cardName">Clientes</div>
+        </div>
+
+        <div class="iconBx">
+            <i class="fa-solid fa-users"></i>
+        </div>
+    </div>
+    <div class="card">
+        <div>
+            <div class="numbers">{{ habitacionesCount }}</div>
+            <div class="cardName">Habitaciones</div>
+        </div>
+
+        <div class="iconBx">
+            <i class="fa-solid fa-bed"></i>
+        </div>
+    </div>
+</div>
+<div class="details">
+    <div class="recentOrders">
+        <div class="cardHeader">
+            <h2>Información de Transacciones</h2>
+            <a class="btn" href="reservas">Ir Reserva</a>
+        </div>
+
+        <table *ngIf="filteredReservas.length > 0">
+            <thead>
+                <tr>
+                    <td>Foto</td>
+                    <td>Estilo</td>
+                    <td>Cant. Noches</td>
+                    <td>Valor</td>
+                    <td>Met. Pago</td>
+                    <td>Num Transacción</td>
+                    <td>Estado</td>
+                    <td>Fecha</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let reserva of filteredReservas | paginate: { itemsPerPage: 5, currentPage: page }">
+                    <td><img [src]="'data:image/jpeg;base64,' + reserva.idhabitacion.foto" alt=""></td>
+                    <td>
+                        <span [ngClass]="{
+                        'familiar': reserva.idhabitacion.estilo === 'Familiar',
+                        'individual': reserva.idhabitacion.estilo === 'Individual',
+                        'matrimonial': reserva.idhabitacion.estilo === 'Matrimonial',
+                        'doble': reserva.idhabitacion.estilo === 'Doble'
+                      }">
+                            {{ reserva.idhabitacion.estilo }}
+                        </span>
+                    </td>
+                    <td>{{ calculateNights(reserva) }} noche(s)</td>
+                    <td>{{ reserva.valorTotal | currency: 'USD' }}</td>
+                    <td>
+                        <span [ngClass]="{
+                            'paypal': reserva.metodoPago === 'Paypal',
+                            'tarjeta': reserva.metodoPago === 'Tarjeta',
+                            'efectivo': reserva.metodoPago === 'Efectivo'
+                          }">
+                          {{ reserva.metodoPago }}
+                                    </span></td>
+                    <td>{{ reserva.numTransaccion }}</td>
+                    <td>
+                        <span [ngClass]="{
+                'reservado': reserva.estado === 'Reservado',
+                'pendiente': reserva.estado === 'Pendiente',
+                'cancelado': reserva.estado === 'Cancelado'
+              }">
+                            {{ reserva.estado }}
+                        </span>
+                    </td>
+                    <td>{{ reserva.fecha }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination-controls *ngIf="filteredReservas.length !== 0" (pageChange)="page = $event" previousLabel="Anterior"
+            nextLabel="Siguiente"></pagination-controls>
+        <div class="loader-container" *ngIf="filteredReservas.length == 0">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>

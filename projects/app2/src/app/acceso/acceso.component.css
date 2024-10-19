@@ -1,0 +1,419 @@
+.details {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 2fr;
+    grid-gap: 30px;
+    /* margin-top: 10px;*/
+}
+
+.details .recentOrders {
+    position: relative;
+    display: grid;
+    min-height: 500px;
+    background: white;
+    padding: 20px;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+}
+
+.details .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.cardHeader h2 {
+    font-weight: 600;
+    color: #353434;
+}
+
+.cardHeader .btn {
+    position: relative;
+    padding: 5px 10px;
+    background: #353434;
+    color: rgb(250, 247, 82);
+    text-decoration: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.details table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+
+}
+
+.details table thead td {
+    font-weight: 600;
+
+}
+
+.details table tbody td .btnedit {
+    position: relative;
+    padding: 5px 10px;
+    background: rgb(95, 95, 250);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    margin: 2px;
+    cursor: pointer;
+}
+
+.details table tbody td .btndelete {
+    position: relative;
+    padding: 5px 10px;
+    background: rgb(250, 95, 95);
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.details .recentOrders table tr {
+    color: #353434;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+}
+
+.details .recentOrders table tr:last-child {
+    border-bottom: none;
+}
+
+.details .recentOrders table tbody tr:hover {
+    background-color: #353434;
+    color: white;
+
+}
+
+
+.details .recentOrders table tr td {
+    padding: 10px;
+}
+
+.details .recentOrders table tr td:last-child {
+    text-align: end;
+}
+
+.details .recentOrders table tr td:nth-child(2) {
+    text-align: center;
+}
+
+.details .recentOrders table tr td:nth-child(3) {
+    text-align: center;
+}
+
+.details .recentOrders table tr td:nth-child(4) {
+    text-align: center;
+}
+
+.details .recentOrders table tr td:nth-child(5) {
+    text-align: center;
+}
+
+.details .recentOrders table tr td:nth-child(6) {
+    text-align: center;
+}
+
+.details .recentOrders table tr td:nth-child(7) {
+    text-align: center;
+}
+
+.details .recentOrders table tr td:nth-child(8) {
+    text-align: center;
+}
+
+.details .recentOrders table tr td:nth-child(9) {
+    text-align: center;
+}
+
+.details .recentOrders table tr td:nth-child(10) {
+    text-align: center;
+}
+
+.details .recentOrders table tr td:nth-child(11) {
+    text-align: center;
+}
+
+.activo {
+    padding: 2px 4px;
+    background: rgb(76, 247, 76);
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.inactivo {
+    padding: 2px 4px;
+    background: rgb(231, 106, 4);
+    color: rgb(255, 255, 255);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.suspendido {
+    padding: 2px 4px;
+    background: rgb(248, 107, 126);
+    color: rgb(255, 255, 255);
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.auxiliar {
+    padding: 2px 4px;
+    background: rgb(99, 168, 196);
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.administrador {
+    padding: 2px 4px;
+    background: rgb(145, 62, 153);
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.familiar {
+    padding: 2px 4px;
+    background: rgb(101, 187, 30);
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.matrimonial {
+    padding: 2px 4px;
+    background: rgb(247, 16, 151);
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.staturol {
+    padding: 2px 4px;
+    background: rgb(253, 198, 126);
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+
+.details table tbody td img {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/*---------------modal-----------------------------*/
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.418);
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.modal--show {
+    opacity: 1;
+    pointer-events: unset;
+}
+
+.modal__container {
+    max-width: 800px;
+    width: 100%;
+    background-color: #fcfbfb;
+    border-radius: 6px;
+    padding: 25px 30px;
+    
+
+}
+
+.modal__container .titeleclient {
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+}
+
+.modal__container .titeleclient::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background: #353434;
+}
+
+.modal__container form .user-details {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 12px 0;
+}
+
+
+form .user-details .input-box {
+    margin-bottom: 15px;
+    width: calc(100% / 4 - 10px);
+    
+}
+
+.user-details .input-box .details {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+.user-details .input-box input,
+.user-details .input-box select {
+    height: 45px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #666;
+    padding-left: 15px;
+    font-size: 16px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.user-details .input-box input:focus,
+.user-details .input-box input:valid,
+.user-details .input-box select:focus,
+.user-details .input-box select:valid {
+    border-color: #664872;
+}
+
+.file {
+    display: none;
+}
+
+.fil {
+    height: 45px;
+    display: flex;
+    font-weight: 500;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    color: #666;
+    padding-left: 15px;
+    font-size: 16px;
+    border: 1px dashed #664872;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+    align-items: center;
+    cursor: pointer;
+    background: white;
+}
+
+.fil:focus,
+.fil:valid {
+    border-color: #664872;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+.buttonhabi{
+    width: 100%;
+    height: 55px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    
+}
+
+.buttonhabi input{
+    width: 40%;
+    height: 55px;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+    font-weight: 400;
+}
+
+.modal__close{
+    background:#e77979;
+    color: white;
+}
+.modal__close2{
+    background:#353434;
+    color: rgb(250, 247, 82);
+}
+
+
+
+.che label{
+    cursor: pointer;
+}
+
+.che label input[type="checkbox"]{
+    display: none;
+}
+
+.che label span{
+    position: relative;
+    height: 45px;
+    width: 100%;
+    display: flex;
+    background: #353434;
+    color: #555;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, .5);
+    border-radius: 5px;
+    font-size: 20px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border-bottom-width: 2px;
+    transition:  0.5s;
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    overflow: hidden;
+}
+
+.che label span::before{
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: rgba(255, 255, 255, .1);
+    box-shadow: 0 1px 4px rgba(255, 255, 255, .1);
+}
+
+.che label input[type="checkbox"]:checked ~ span{
+    background: #e91e63;
+    color: #fff;
+}

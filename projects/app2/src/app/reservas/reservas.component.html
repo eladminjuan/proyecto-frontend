@@ -1,0 +1,119 @@
+<div class="details">
+    <div class="recentOrders">
+        <div class="cardHeader">
+            <h2>Reservas</h2>
+            <a (click)="openCreateModal()" class="btn">Crear Reserva</a>
+        </div>
+
+        <table *ngIf="filteredReservas.length > 0">
+            <thead>
+                <tr>
+                    <td>Cliente</td>
+                    <td>Habitación</td>
+                    <td>Fecha Entrada</td>
+                    <td>Fecha Salida</td>
+                    <td>Valor</td>
+                    <td>Estado</td>
+                    <td>Fecha</td>
+                    <td>Acciones</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let reserva of filteredReservas | paginate: { itemsPerPage: 5, currentPage: page }">
+                    <td>{{ reserva.idusuario.nombre }}</td>
+                    <td>
+                        <span [ngClass]="{
+                        'familiar': reserva.idhabitacion.estilo === 'Familiar',
+                        'individual': reserva.idhabitacion.estilo === 'Individual',
+                        'matrimonial': reserva.idhabitacion.estilo === 'Matrimonial',
+                        'doble': reserva.idhabitacion.estilo === 'Doble'
+                      }">
+                            {{ reserva.idhabitacion.estilo }}
+                        </span>
+                    </td>
+                    <td>{{ reserva.fechaIngreso | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ reserva.fechaSalida | date:'dd/MM/yyyy' }}</td>
+                    <td>{{ reserva.valorTotal | currency: 'USD' }}</td>
+                    <td>
+                        <span [ngClass]="{
+                'reservado': reserva.estado === 'Reservado',
+                'pendiente': reserva.estado === 'Pendiente',
+                'cancelado': reserva.estado === 'Cancelado'
+              }">
+                            {{ reserva.estado }}
+                        </span>
+                    </td>
+                    <td>{{ reserva.fecha }}</td>
+                    <td>
+                        <ng-container *ngIf="reserva.estado === 'Reservado'">
+                            <a (click)="viewReserva(reserva)" class="btnedit">Ver</a>
+                          </ng-container>
+                          <ng-container *ngIf="reserva.estado === 'Pendiente'">
+                            <a (click)="editReserva(reserva)" class="btnedit">Editar</a>
+                            <a (click)="deleteReserva(reserva._id!)" class="btndelete">Eliminar</a>
+                          </ng-container>
+                          <ng-container *ngIf="reserva.estado === 'Cancelado'">
+                            <a (click)="deleteReserva(reserva._id!)" class="btndelete">Eliminar</a>
+                          </ng-container>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination-controls *ngIf="filteredReservas.length !== 0" (pageChange)="page = $event" previousLabel="Anterior"
+            nextLabel="Siguiente"></pagination-controls>
+        <div class="loader-container" *ngIf="filteredReservas.length == 0">
+            <div class="loader"></div>
+        </div>
+    </div>
+</div>
+
+<section class="modal" [ngClass]="{'modal--show': isModalOpen}">
+    <div class="modal__container">
+        <div class="titeleclient">{{ isViewMode ? 'Ver Reserva' : isEditMode ? 'Editar Reserva' : 'Crear Reserva' }}</div>
+        <form (ngSubmit)="submitForm()">
+            <div class="user-details">
+                <!-- Campos del formulario -->
+                <div class="input-box">
+                    <span class="details">Cliente</span>
+                    <select class="input-quantity" [(ngModel)]="reserva.idusuario._id" name="idUsuario" id="idUsuario"
+                    [disabled]="isViewMode || isEditMode" required>
+                        <option disabled selected value="">Selecciona el Cliente</option>
+                        <option *ngFor="let usuario of usuarios" [value]="usuario._id">{{ usuario.nombre }}</option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <span class="details">Habitación</span>
+                    <select class="input-quantity" [(ngModel)]="reserva.idhabitacion._id" name="idHabitacion"
+                        id="idHabitacion" [disabled]="isViewMode || isEditMode" required>
+                        <option disabled selected value="">Selecciona la Habitación</option>
+                        <option *ngFor="let habitacion of habitaciones" [value]="habitacion._id">{{ habitacion.estilo }}
+                        </option>
+                    </select>
+                </div>
+                <div class="input-box">
+                    <span class="details">Fecha Ingreso</span>
+                    <input type="date" [(ngModel)]="reserva.fechaIngreso" (change)="onFechaChange()" name="fechaIngreso"
+                        id="fechaIngreso" [disabled]="isViewMode" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Fecha Salida</span>
+                    <input type="date" [(ngModel)]="reserva.fechaSalida" (change)="onFechaChange()" name="fechaSalida"
+                        id="fechaSalida" [disabled]="isViewMode" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Transacción</span>
+                    <input type="text" [(ngModel)]="reserva.numTransaccion" name="numTransaccion" id="numTransaccion"
+                        placeholder="Aquí iría el # de Transacción" [disabled]="isViewMode || isEditMode" disabled>
+                </div>
+                <div class="input-box">
+                    <span class="details">Valor Total</span>
+                    <input type="number" name="valorTotal" [(ngModel)]="reserva.valorTotal" [disabled]="isViewMode" readonly disabled>
+                </div>
+            </div>
+            <div class="buttonhabi">
+                <input class="modal__close" type="button" value="Cancelar" (click)="closeModal()">
+                <input *ngIf="!isViewMode" class="modal__close2" type="submit" value="{{ isEditMode ? 'Actualizar' : 'Guardar' }}">
+            </div>
+        </form>
+    </div>
+</section>
